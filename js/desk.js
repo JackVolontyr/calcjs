@@ -15,11 +15,11 @@ class Desk extends Methods {
 
     // Open Calc
     this._icon.getElement().addEventListener(
-      'openCalcIcon', this._openCalc.bind(this)
+      'dblclick', this._openCalc.bind(this)
     );
     // DnD Icon
     this._icon.getElement().addEventListener(
-      'dndIconIcon', this._dndIcon.bind(this)
+      'mousedown', this._dndIcon.bind(this)
     );
     // DnD Calc
     this._calc.getElement().addEventListener(
@@ -48,7 +48,7 @@ class Desk extends Methods {
       }
     };
 
-    dragNdrop(e.detail, dndoptions);
+    dragNdrop(e, dndoptions);
   }
 
   // DnD Calc
