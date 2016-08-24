@@ -2,6 +2,7 @@
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 module.exports = {
   context: __dirname + '/js',
@@ -24,31 +25,38 @@ module.exports = {
   devtool: NODE_ENV === 'development' ? 'source-map' : null,
 
   module: {
-    loaders: [
-      // {
-      //   test: /\.hbs$/,
-      //   loader: "handlebars-loader"
-      // },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        // loader: 'babel?presets[]=es2015',
-        loader: 'babel',
-        query: {
-          presets: ['es2015']
-        }
+    loaders: [{
+      'loader': 'babel',
+      'test': /\.js$/,
+      'exclude': /node_modules/,
+      'query': {
+        'plugins': ['lodash'],
+        'presets': ['es2015']
       }
-    ]
+    }]
+    // [
+    //   {
+    //     test: /\.hbs$/,
+    //     loader: "handlebars-loader"
+    //   },
+    //   {
+    //     test: /\.js$/,
+    //     exclude: /(node_modules)/,
+    //     // loader: 'babel?presets[]=es2015',
+    //     loader: 'babel',
+    //     query: {
+    //       presets: ['es2015']
+    //     }
+    //   }
+    // ]
   },
 
   plugins: [
+    new LodashModuleReplacementPlugin,
+    new webpack.optimize.OccurrenceOrderPlugin,
+    // new webpack.optimize.UglifyJsPlugin,
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV)
     })
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // }),
   ]
 };

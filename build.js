@@ -47,7 +47,7 @@ var app =
 
 	'use strict';
 	
-	var Desk = __webpack_require__(1);
+	var Desk = __webpack_require__(3);
 	
 	if (true) {
 	  console.log('development!');
@@ -57,194 +57,9 @@ var app =
 	var desk = new Desk({
 	  el: document.querySelector('.js-calc')
 	});
-	
-	module.exports = desk;
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var dragNdrop = __webpack_require__(2);
-	var Methods = __webpack_require__(3);
-	var Calc = __webpack_require__(4);
-	var Icon = __webpack_require__(8);
-	
-	var Desk = function (_Methods) {
-	  _inherits(Desk, _Methods);
-	
-	  function Desk(options) {
-	    _classCallCheck(this, Desk);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Desk).call(this));
-	
-	    _this._el = options.el;
-	
-	    _this._calc = new Calc({
-	      el: document.querySelector('.js-calc__calc')
-	    });
-	
-	    _this._icon = new Icon({
-	      el: document.querySelector('.js-calc__icon')
-	    });
-	
-	    // Open Calc
-	    _this._icon.getElement().addEventListener('dblclick', _this._openCalc.bind(_this));
-	    // DnD Icon
-	    _this._icon.getElement().addEventListener('mousedown', _this._dndIcon.bind(_this));
-	    // DnD Calc
-	    _this._calc.getElement().addEventListener('dndCalcCalc', _this._dndCalc.bind(_this));
-	    // Close Calc
-	    _this._calc.getElement().addEventListener('closeCalcCalc', _this._closeCalc.bind(_this));
-	    return _this;
-	  }
-	
-	  // Open Calc
-	
-	
-	  _createClass(Desk, [{
-	    key: '_openCalc',
-	    value: function _openCalc(e) {
-	      this._calc.getElement().hidden = false;
-	    }
-	
-	    // DnD Icon
-	
-	  }, {
-	    key: '_dndIcon',
-	    value: function _dndIcon(e) {
-	      var dndoptions = {
-	        elem: this._icon.getElement(),
-	        parent: this.getElement(),
-	        ifTarget: function ifTarget(target) {
-	          if (!target.closest('.js-calc__icon')) {
-	            return;
-	          }
-	        }
-	      };
-	
-	      dragNdrop(e, dndoptions);
-	    }
-	
-	    // DnD Calc
-	
-	  }, {
-	    key: '_dndCalc',
-	    value: function _dndCalc(e) {
-	      var dndoptions = {
-	        elem: this._calc.getElement(),
-	        parent: this.getElement(),
-	        ifTarget: function ifTarget(target) {
-	          if (target.closest('.js-calc__top-button') || !target.closest('.js-calc__top-panel')) {
-	            return;
-	          }
-	        }
-	      };
-	
-	      dragNdrop(e.detail, dndoptions);
-	    }
-	
-	    // Close Calc
-	
-	  }, {
-	    key: '_closeCalc',
-	    value: function _closeCalc() {
-	      this._calc.getElement().hidden = true;
-	    }
-	  }]);
-	
-	  return Desk;
-	}(Methods);
-	
-	module.exports = Desk;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	// Drag N Drop
-	
-	function dragNdrop(e, options) {
-	  e.preventDefault();
-	
-	  var elem = options.elem;
-	  var parent = options.parent;
-	  var finterFunc = options.ifTarget;
-	
-	  var target = e.target;
-	  finterFunc(target);
-	
-	  var coords = getCoords(elem);
-	  var shiftX = e.pageX - coords.left;
-	  var shiftY = e.pageY - coords.top;
-	
-	  elem.style.position = 'absolute';
-	  // elem.style.zIndex = 1000;
-	  document.body.appendChild(elem);
-	  moveAt(e);
-	
-	  function moveAt(e) {
-	    var positionLeft = e.pageX - shiftX;
-	    var positionTop = e.pageY - shiftY;
-	    var deskRectW = parent.getBoundingClientRect().width;
-	    var deskRectH = parent.getBoundingClientRect().height;
-	    var elemRectW = elem.getBoundingClientRect().width;
-	    var elemRectH = elem.getBoundingClientRect().height;
-	
-	    if (positionTop <= 0) {
-	      positionTop = 0;
-	    } else if (positionTop + elemRectH >= deskRectH) {
-	      positionTop = deskRectH - elemRectH;
-	    }
-	    if (positionLeft <= 0) {
-	      positionLeft = 0;
-	    } else if (positionLeft + elemRectW >= deskRectW) {
-	      positionLeft = deskRectW - elemRectW;
-	    }
-	
-	    elem.style.cursor = 'move';
-	    elem.style.left = positionLeft + 'px';
-	    elem.style.top = positionTop + 'px';
-	  }
-	
-	  document.onmousemove = function (e) {
-	    moveAt(e);
-	  };
-	  // document.addEventListener('mousemove', wrapMoveAt);
-	  // function wrapMoveAt(e) {
-	  //   return moveAt(e);
-	  // };
-	
-	  document.addEventListener('mouseup', stopMove);
-	  function stopMove(e) {
-	    elem.style.cursor = '';
-	    document.onmousemove = document.onmouseup = null;
-	  };
-	}
-	
-	function getCoords(elem) {
-	  var box = elem.getBoundingClientRect();
-	  return {
-	    top: box.top + pageYOffset,
-	    left: box.left + pageXOffset
-	  };
-	}
-	
-	module.exports = dragNdrop;
-
-/***/ },
-/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -271,7 +86,7 @@ var app =
 	module.exports = Methods;
 
 /***/ },
-/* 4 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -284,10 +99,11 @@ var app =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Methods = __webpack_require__(3);
-	var Panel = __webpack_require__(5);
-	var Output = __webpack_require__(6);
-	var Input = __webpack_require__(7);
+	var Methods = __webpack_require__(1);
+	var Panel = __webpack_require__(8);
+	var Output = __webpack_require__(7);
+	var Input = __webpack_require__(6);
+	var _ = __webpack_require__(9);
 	
 	// Template
 	var template = [{ data: 'option="backspace"', text: 'Backspace' }, { data: 'null', text: '' }, { data: 'option="reset"', text: 'C' }, { data: 'number="7"', text: '7' }, { data: 'number="8"', text: '8' }, { data: 'number="9"', text: '9' }, { data: 'symbol="÷"', text: '/' }, { data: 'null', text: '' }, { data: 'number="4"', text: '4' }, { data: 'number="5"', text: '5' }, { data: 'number="6"', text: '6' }, { data: 'symbol="x"', text: '*' }, { data: 'null', text: '' }, { data: 'number="1"', text: '1' }, { data: 'number="2"', text: '2' }, { data: 'number="3"', text: '3' }, { data: 'symbol="-"', text: '-' }, { data: 'null', text: '' }, { data: 'number="0"', text: '0' }, { data: 'null', text: '' }, { data: 'symbol="."', text: '.' }, { data: 'symbol="+"', text: '+' }, { data: 'symbol="="', text: '=' }];
@@ -453,6 +269,189 @@ var app =
 	module.exports = Calc;
 
 /***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var dragNdrop = __webpack_require__(4);
+	var Methods = __webpack_require__(1);
+	var Calc = __webpack_require__(2);
+	var Icon = __webpack_require__(5);
+	
+	var Desk = function (_Methods) {
+	  _inherits(Desk, _Methods);
+	
+	  function Desk(options) {
+	    _classCallCheck(this, Desk);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Desk).call(this));
+	
+	    _this._el = options.el;
+	
+	    _this._calc = new Calc({
+	      el: document.querySelector('.js-calc__calc')
+	    });
+	
+	    _this._icon = new Icon({
+	      el: document.querySelector('.js-calc__icon')
+	    });
+	
+	    // Open Calc
+	    _this._icon.getElement().addEventListener('dblclick', _this._openCalc.bind(_this));
+	    // DnD Icon
+	    _this._icon.getElement().addEventListener('mousedown', _this._dndIcon.bind(_this));
+	    // DnD Calc
+	    _this._calc.getElement().addEventListener('dndCalcCalc', _this._dndCalc.bind(_this));
+	    // Close Calc
+	    _this._calc.getElement().addEventListener('closeCalcCalc', _this._closeCalc.bind(_this));
+	    return _this;
+	  }
+	
+	  // Open Calc
+	
+	
+	  _createClass(Desk, [{
+	    key: '_openCalc',
+	    value: function _openCalc(e) {
+	      this._calc.getElement().hidden = false;
+	    }
+	
+	    // DnD Icon
+	
+	  }, {
+	    key: '_dndIcon',
+	    value: function _dndIcon(e) {
+	      var dndoptions = {
+	        elem: this._icon.getElement(),
+	        parent: this.getElement(),
+	        ifTarget: function ifTarget(target) {
+	          if (!target.closest('.js-calc__icon')) {
+	            return;
+	          }
+	        }
+	      };
+	
+	      dragNdrop(e, dndoptions);
+	    }
+	
+	    // DnD Calc
+	
+	  }, {
+	    key: '_dndCalc',
+	    value: function _dndCalc(e) {
+	      var dndoptions = {
+	        elem: this._calc.getElement(),
+	        parent: this.getElement(),
+	        ifTarget: function ifTarget(target) {
+	          if (target.closest('.js-calc__top-button') || !target.closest('.js-calc__top-panel')) {
+	            return;
+	          }
+	        }
+	      };
+	
+	      dragNdrop(e.detail, dndoptions);
+	    }
+	
+	    // Close Calc
+	
+	  }, {
+	    key: '_closeCalc',
+	    value: function _closeCalc() {
+	      this._calc.getElement().hidden = true;
+	    }
+	  }]);
+	
+	  return Desk;
+	}(Methods);
+	
+	module.exports = Desk;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	// Drag N Drop
+	
+	function dragNdrop(e, options) {
+	  e.preventDefault();
+	
+	  var elem = options.elem;
+	  var parent = options.parent;
+	  var finterFunc = options.ifTarget;
+	
+	  var target = e.target;
+	  finterFunc(target);
+	
+	  var coords = getCoords(elem);
+	  var shiftX = e.pageX - coords.left;
+	  var shiftY = e.pageY - coords.top;
+	
+	  elem.style.position = 'absolute';
+	  // elem.style.zIndex = 1000;
+	  document.body.appendChild(elem);
+	  moveAt(e);
+	
+	  function moveAt(e) {
+	    var positionLeft = e.pageX - shiftX;
+	    var positionTop = e.pageY - shiftY;
+	    var deskRectW = parent.getBoundingClientRect().width;
+	    var deskRectH = parent.getBoundingClientRect().height;
+	    var elemRectW = elem.getBoundingClientRect().width;
+	    var elemRectH = elem.getBoundingClientRect().height;
+	
+	    if (positionTop <= 0) {
+	      positionTop = 0;
+	    } else if (positionTop + elemRectH >= deskRectH) {
+	      positionTop = deskRectH - elemRectH;
+	    }
+	    if (positionLeft <= 0) {
+	      positionLeft = 0;
+	    } else if (positionLeft + elemRectW >= deskRectW) {
+	      positionLeft = deskRectW - elemRectW;
+	    }
+	
+	    elem.style.cursor = 'move';
+	    elem.style.left = positionLeft + 'px';
+	    elem.style.top = positionTop + 'px';
+	  }
+	
+	  document.onmousemove = function (e) {
+	    moveAt(e);
+	  };
+	  // document.addEventListener('mousemove', wrapMoveAt);
+	  // function wrapMoveAt(e) {
+	  //   return moveAt(e);
+	  // };
+	
+	  document.addEventListener('mouseup', stopMove);
+	  function stopMove(e) {
+	    elem.style.cursor = '';
+	    document.onmousemove = document.onmouseup = null;
+	  };
+	}
+	
+	function getCoords(elem) {
+	  var box = elem.getBoundingClientRect();
+	  return {
+	    top: box.top + pageYOffset,
+	    left: box.left + pageXOffset
+	  };
+	}
+	
+	module.exports = dragNdrop;
+
+/***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -464,24 +463,24 @@ var app =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Methods = __webpack_require__(3);
+	var Methods = __webpack_require__(1);
 	
-	var Panel = function (_Methods) {
-	  _inherits(Panel, _Methods);
+	var Icon = function (_Methods) {
+	  _inherits(Icon, _Methods);
 	
-	  function Panel(options) {
-	    _classCallCheck(this, Panel);
+	  function Icon(options) {
+	    _classCallCheck(this, Icon);
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Panel).call(this));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Icon).call(this));
 	
 	    _this._el = options.el;
 	    return _this;
 	  }
 	
-	  return Panel;
+	  return Icon;
 	}(Methods);
 	
-	module.exports = Panel;
+	module.exports = Icon;
 
 /***/ },
 /* 6 */
@@ -495,38 +494,7 @@ var app =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Methods = __webpack_require__(3);
-	
-	var Output = function (_Methods) {
-	  _inherits(Output, _Methods);
-	
-	  function Output(options) {
-	    _classCallCheck(this, Output);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Output).call(this));
-	
-	    _this._el = options.el;
-	    return _this;
-	  }
-	
-	  return Output;
-	}(Methods);
-	
-	module.exports = Output;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Methods = __webpack_require__(3);
+	var Methods = __webpack_require__(1);
 	
 	var Input = function (_Methods) {
 	  _inherits(Input, _Methods);
@@ -546,6 +514,37 @@ var app =
 	module.exports = Input;
 
 /***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Methods = __webpack_require__(1);
+	
+	var Output = function (_Methods) {
+	  _inherits(Output, _Methods);
+	
+	  function Output(options) {
+	    _classCallCheck(this, Output);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Output).call(this));
+	
+	    _this._el = options.el;
+	    return _this;
+	  }
+	
+	  return Output;
+	}(Methods);
+	
+	module.exports = Output;
+
+/***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -557,24 +556,30 @@ var app =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Methods = __webpack_require__(3);
+	var Methods = __webpack_require__(1);
 	
-	var Icon = function (_Methods) {
-	  _inherits(Icon, _Methods);
+	var Panel = function (_Methods) {
+	  _inherits(Panel, _Methods);
 	
-	  function Icon(options) {
-	    _classCallCheck(this, Icon);
+	  function Panel(options) {
+	    _classCallCheck(this, Panel);
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Icon).call(this));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Panel).call(this));
 	
 	    _this._el = options.el;
 	    return _this;
 	  }
 	
-	  return Icon;
+	  return Panel;
 	}(Methods);
 	
-	module.exports = Icon;
+	module.exports = Panel;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = _;
 
 /***/ }
 /******/ ]);

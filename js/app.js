@@ -10,5 +10,3 @@ if (NODE_ENV === 'development') {
 let desk = new Desk({
   el: document.querySelector(`.js-calc`)
 });
-
-module.exports = desk;

@@ -4,6 +4,7 @@ let Methods = require('./methods');
 let Panel = require('./panel');
 let Output = require('./output');
 let Input = require('./input');
+let _ = require('lodash');
 
 // Template
 let template = [
