@@ -1,33 +1,32 @@
 'use strict';
-// TODO getElement
 
-// Class
-class Icon /*extends Desk*/ {
+class Icon extends Methods {
   constructor(options) {
-    // super();
+    super();
     this._el = options.el;
-    this._el.addEventListener('dblclick', this._openCalc);
-    this._el.addEventListener('mousedown', this._dndDesktopIcon);
+
+    // Open Calc
+    this._el.addEventListener(
+      'dblclick', this._openCalcIcon.bind(this)
+    );
+    // DnD Icon
+    this._el.addEventListener(
+      'mousedown', this._dndIconIcon.bind(this)
+    );
   }
 
-  _openCalc(e) {
-    if (e.target.closest(`${appName}__icon`)) {
-      calc.getElement().hidden = false;
-    }
+  // Open Calc
+  _openCalcIcon(e) {
+    let customEvent = new CustomEvent('openCalcIcon');
+    this._el.dispatchEvent(customEvent);
   }
-  _dndDesktopIcon(e) {
-    dragNdrop(e, {
-      elem  : desk._icon.getElement(),
-      parent: desk.getElement(),
-      ifTarget(target) {
-        if (!target.closest(`${appName}__icon`)) {
-          return;
-        }
-      }
+
+  // DnD Icon
+  _dndIconIcon(e) {
+    let customEvent = new CustomEvent('dndIconIcon', {
+      detail: e
     });
-  }
 
-  getElement() {
-    return this._el;
+    this._el.dispatchEvent(customEvent);
   }
 }

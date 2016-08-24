@@ -25,18 +25,18 @@ function dragNdrop(e, options) {
     let positionTop  = e.pageY - shiftY;
     let deskRectW = parent.getBoundingClientRect().width;
     let deskRectH = parent.getBoundingClientRect().height;
-    let calcRectW = elem.getBoundingClientRect().width;
-    let calcRectH = elem.getBoundingClientRect().height;
+    let elemRectW = elem.getBoundingClientRect().width;
+    let elemRectH = elem.getBoundingClientRect().height;
 
     if (positionTop  <= 0) {
       positionTop = 0;
-    } else if (positionTop + calcRectH  >= deskRectH) {
-      positionTop = deskRectH - calcRectH;
+    } else if (positionTop + elemRectH  >= deskRectH) {
+      positionTop = deskRectH - elemRectH;
     }
     if (positionLeft <= 0) {
       positionLeft = 0;
-    } else if (positionLeft + calcRectW >= deskRectW) {
-      positionLeft = deskRectW - calcRectW;
+    } else if (positionLeft + elemRectW >= deskRectW) {
+      positionLeft = deskRectW - elemRectW;
     }
 
     elem.style.cursor = 'move';

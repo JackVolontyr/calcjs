@@ -1,14 +1,8 @@
 'use strict';
-// TODO getElement
 
-// Class
-class Output /*extends Calc*/ {
+class Output extends Methods {
   constructor(options) {
-    // super();
+    super();
     this._el = options.el;
-  }
-
-  getElement() {
-    return this._el;
   }
 }
