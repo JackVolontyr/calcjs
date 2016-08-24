@@ -1,5 +1,10 @@
 'use strict';
 
+let Methods = require('./methods');
+let Panel = require('./panel');
+let Output = require('./output');
+let Input = require('./input');
+
 // Template
 let template = [
   {data: `option="backspace"`, text: 'Backspace'},
@@ -37,15 +42,15 @@ class Calc extends Methods {
     this._el = options.el;
 
     this._panel = new Panel({
-      el: document.querySelector(`${appName}__top-panel`)
+      el: document.querySelector(`.js-calc__top-panel`)
     });
 
     this._output = new Output({
-      el: document.querySelector(`${appName}__output`)
+      el: document.querySelector(`.js-calc__output`)
     });
 
     this._input = new Input({
-      el: document.querySelector(`${appName}__input`)
+      el: document.querySelector(`.js-calc__input`)
     });
 
 
@@ -138,7 +143,7 @@ class Calc extends Methods {
   }
 
   _toTotal() {
-    let equation = desk._calc._output.getElement().innerHTML;
+    let equation = this._output.getElement().innerHTML;
     let lastChar = equation[equation.length - 1];
 
     equation = equation.replace(/x/g, '*').replace(/÷/g, '/');
@@ -154,19 +159,19 @@ class Calc extends Methods {
   }
 
   _backspace() {
-    let outputNow = desk._calc._output.getElement().innerHTML;
+    let outputNow = this._output.getElement().innerHTML;
 
     if (outputNow.length <= 1) {
-      desk._calc._output.getElement().innerHTML = '0';
+      this._output.getElement().innerHTML = '0';
       return;
     }
-    desk._calc._output.getElement().innerHTML = outputNow.slice(0, -1);
+    this._output.getElement().innerHTML = outputNow.slice(0, -1);
   }
 
 
   // Close Calc
   _closeCalcCalc(e) {
-    if (e.target.closest(`${appName}__top-button--close`)) {
+    if (e.target.closest(`.js-calc__top-button--close`)) {
       let customEvent = new CustomEvent('closeCalcCalc');
       this._el.dispatchEvent(customEvent);
     }
@@ -181,3 +186,5 @@ class Calc extends Methods {
   }
 
 }
+
+module.exports = Calc;

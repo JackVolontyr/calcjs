@@ -1,0 +1,42 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "handlebars-loader": "^1.3.0",
+    "json-loader": "^0.5.4",
+    "raw-loader": "^0.5.1",
+    "webpack": "^1.13.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.13.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackVolontyr/calcjs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JackVolontyr/calcjs/issues"
+  },
+  "homepage": "https://github.com/JackVolontyr/calcjs#readme",
+  "dependencies": {
+    "lodash": "^4.15.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-lodash": "^3.2.8",
+    "babel-preset-es2015": "^6.13.2",
+    "lodash-webpack-plugin": "^0.10.0",
+    "webpack": "^1.13.2"
+  }
+}

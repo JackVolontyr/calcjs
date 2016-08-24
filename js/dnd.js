@@ -66,3 +66,5 @@ function getCoords(elem) {
     left: box.left + pageXOffset
   };
 }
+
+module.exports = dragNdrop;

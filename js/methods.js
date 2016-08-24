@@ -5,3 +5,5 @@ class Methods {
     return this._el;
   }
 }
+
+module.exports = Methods;

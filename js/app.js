@@ -1,7 +1,14 @@
 'use strict'
 
+let Desk = require('./desk');
+
+if (NODE_ENV === 'development') {
+  console.log('development!');
+}
+
 // App
-let appName = '.js-calc';
 let desk = new Desk({
-  el: document.querySelector(`${appName}`)
+  el: document.querySelector(`.js-calc`)
 });
+
+module.exports = desk;

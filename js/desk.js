@@ -1,16 +1,21 @@
 'use strict';
 
+let dragNdrop = require('./dnd');
+let Methods = require('./methods');
+let Calc = require('./calc');
+let Icon = require('./icon');
+
 class Desk extends Methods {
   constructor(options) {
     super();
     this._el = options.el;
 
     this._calc = new Calc({
-      el: document.querySelector(`${appName}__calc`)
+      el: document.querySelector(`.js-calc__calc`)
     });
 
     this._icon = new Icon({
-      el: document.querySelector(`${appName}__icon`)
+      el: document.querySelector(`.js-calc__icon`)
     });
 
     // Open Calc
@@ -42,7 +47,7 @@ class Desk extends Methods {
       elem  : this._icon.getElement(),
       parent: this.getElement(),
       ifTarget(target) {
-        if (!target.closest(`${appName}__icon`)) {
+        if (!target.closest(`.js-calc__icon`)) {
           return;
         }
       }
@@ -58,8 +63,8 @@ class Desk extends Methods {
       parent: this.getElement(),
       ifTarget(target) {
         if (
-           target.closest(`${appName}__top-button`) ||
-          !target.closest(`${appName}__top-panel`)
+           target.closest(`.js-calc__top-button`) ||
+          !target.closest(`.js-calc__top-panel`)
         ) {
           return;
         }
@@ -75,3 +80,5 @@ class Desk extends Methods {
   }
 
 }
+
+module.exports = Desk;
