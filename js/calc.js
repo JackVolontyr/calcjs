@@ -4,38 +4,11 @@ let Methods = require('./methods');
 let Panel = require('./panel');
 let Output = require('./output');
 let Input = require('./input');
-let _ = require('lodash');
+import _ from 'lodash';
 
 // Template
-let template = [
-  {data: `option="backspace"`, text: 'Backspace'},
-  {data: `null`, text: ''},
-  {data: `option="reset"`, text: 'C'},
-
-  {data: `number="7"`, text: '7'},
-  {data: `number="8"`, text: '8'},
-  {data: `number="9"`, text: '9'},
-  {data: `symbol="÷"`, text: '/'},
-  {data: `null`, text: ''},
-
-  {data: `number="4"`, text: '4'},
-  {data: `number="5"`, text: '5'},
-  {data: `number="6"`, text: '6'},
-  {data: `symbol="x"`, text: '*'},
-  {data: `null`, text: ''},
-
-  {data: `number="1"`, text: '1'},
-  {data: `number="2"`, text: '2'},
-  {data: `number="3"`, text: '3'},
-  {data: `symbol="-"`, text: '-'},
-  {data: `null`, text: ''},
-
-  {data: `number="0"`, text: '0'},
-  {data: `null`, text: ''},
-  {data: `symbol="."`, text: '.'},
-  {data: `symbol="+"`, text: '+'},
-  {data: `symbol="="`, text: '='}
-];
+// let template = JSON.parse(require("../templates/calcButtons.json"));
+let template = require("json!../templates/calcButtons.json");
 
 class Calc extends Methods {
   constructor(options) {
