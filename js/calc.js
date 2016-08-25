@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 // Template
 // let template = JSON.parse(require("../templates/calcButtons.json"));
-let template = require("json!../templates/calcButtons.json");
+let template = require("json!../json/calcButtons.json");
 
 class Calc extends Methods {
   constructor(options) {
