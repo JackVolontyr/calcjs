@@ -327,7 +327,8 @@ var app =
 	    // Render from server file
 	    _ajaxService2.default.ajax({
 	      requestMethod: 'GET',
-	      url: '../json/calcButtons.json',
+	      url: '../calcjs/json/calcButtons.json', // for GitHub
+	      // url: '../json/calcButtons.json',
 	      success: _this._renderCalcButtons.bind(_this)
 	    });
 	
