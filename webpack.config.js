@@ -14,7 +14,7 @@ module.exports = {
 
   watch: NODE_ENV === 'development',
   watchOptions: {
-    aggregateTimeout: 1000
+    aggregateTimeout: 300
   },
 
   devtool: NODE_ENV === 'development' ? 'source-map' : null,
@@ -41,10 +41,10 @@ module.exports = {
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV)
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // })
   ]
 };
