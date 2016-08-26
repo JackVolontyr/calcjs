@@ -33,7 +33,8 @@ class Calc extends Logic {
     // Render from server file
     ajaxService.ajax({
       requestMethod: 'GET',
-      url: '../json/calcButtons.json',
+      url: '../calcjs/json/calcButtons.json', // for GitHub
+      // url: '../json/calcButtons.json',
       success: this._renderCalcButtons.bind(this)
     })
 
